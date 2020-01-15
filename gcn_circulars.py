@@ -51,6 +51,8 @@ def listen(check_every=60):
             print('sending GCN', gcn_number)
             send_email(gcn.text, subject)
             store_last_gcn_number(gcn_number)
+        else:
+            print(time.ctime(), gcn)
         time.sleep(check_every)
 
 
