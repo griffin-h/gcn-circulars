@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 import time
 import re
 import os
+import sys
 
 
 def get_gcn(gcn_number):
@@ -40,7 +41,7 @@ def store_last_gcn_number(gcn_number):
         f.write(str(gcn_number))
 
 
-def listen():
+def listen(check_every=3):
     gcn_number = get_last_gcn_number()
     while True:
         gcn_number += 1
@@ -50,9 +51,10 @@ def listen():
             print('sending GCN', gcn_number)
             send_email(gcn.text, subject)
             store_last_gcn_number(gcn_number)
-        time.sleep(3)
+        time.sleep(check_every)
 
 
 if __name__ == '__main__':
     gmail_password = os.environ['GMAIL_PASSWD']
-    listen()
+    check_every = int(sys.argv[1])
+    listen(check_every)
