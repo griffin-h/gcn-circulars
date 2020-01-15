@@ -41,7 +41,7 @@ def store_last_gcn_number(gcn_number):
         f.write(str(gcn_number))
 
 
-def listen(check_every=3):
+def listen(check_every=60):
     gcn_number = get_last_gcn_number()
     while True:
         gcn_number += 1
@@ -56,5 +56,8 @@ def listen(check_every=3):
 
 if __name__ == '__main__':
     gmail_password = os.environ['GMAIL_PASSWD']
-    check_every = int(sys.argv[1])
+    if len(sys.argv) == 1:
+        check_every = 60
+    else:
+        check_every = int(sys.argv[1])
     listen(check_every)
