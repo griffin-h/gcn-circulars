@@ -53,7 +53,7 @@ def listen(check_every=60):
             gcn_number += 1
         else:
             print(time.ctime(), gcn)
-        time.sleep(check_every)
+            time.sleep(check_every)
 
 
 if __name__ == '__main__':
