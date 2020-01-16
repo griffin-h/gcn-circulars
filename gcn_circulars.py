@@ -6,6 +6,9 @@ import time
 import re
 import os
 import sys
+import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S', level=logging.INFO)
 
 
 def get_gcn(gcn_number):
@@ -47,12 +50,12 @@ def listen(check_every=60):
         gcn = get_gcn(gcn_number)
         if gcn.ok:
             subject = re.search('SUBJECT: (.*)', gcn.text).groups()[0]
-            print('sending GCN', gcn_number)
+            logging.info(f'sending GCN {gcn_number:d}')
             send_email(gcn.text, subject)
             store_last_gcn_number(gcn_number)
             gcn_number += 1
         else:
-            print(time.ctime(), gcn)
+            logging.info(f'GCN {gcn_number:d} {str(gcn)}')
             time.sleep(check_every)
 
 
