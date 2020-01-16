@@ -42,15 +42,15 @@ def store_last_gcn_number(gcn_number):
 
 
 def listen(check_every=60):
-    gcn_number = get_last_gcn_number()
+    gcn_number = get_last_gcn_number() + 1
     while True:
-        gcn_number += 1
         gcn = get_gcn(gcn_number)
         if gcn.ok:
             subject = re.search('SUBJECT: (.*)', gcn.text).groups()[0]
             print('sending GCN', gcn_number)
             send_email(gcn.text, subject)
             store_last_gcn_number(gcn_number)
+            gcn_number += 1
         else:
             print(time.ctime(), gcn)
         time.sleep(check_every)
