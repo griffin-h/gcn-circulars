@@ -47,7 +47,12 @@ def store_last_gcn_number(gcn_number):
 def listen(check_every=60):
     gcn_number = get_last_gcn_number() + 1
     while True:
-        gcn = get_gcn(gcn_number)
+        try:
+            gcn = get_gcn(gcn_number)
+        except Exception as e:
+            logging.error(e)
+            time.sleep(check_every)
+            continue
         if gcn.ok:
             subject = re.search('SUBJECT: (.*)', gcn.text).groups()[0]
             logging.info(f'sending GCN {gcn_number:d}')
